@@ -1,23 +1,30 @@
 import ply.lex as lex
+from prettytable import PrettyTable
 
 # Reserved words
 reserved = {
+    "int": "INT",
+    "str": "STRING",
+    "boolean": "BOOLEAN",
+    "false": "FALSE",
+    "true": "TRUE",
+    "vector": "VECTOR",
     "if": "IF",
-    "then": "THEN",
+    "elseif": "ELSEIF",
     "else": "ELSE",
     "while": "WHILE",
     "for": "FOR",
+    "to": "TO",
     "begin": "BEGIN",
     "end": "END",
-    "to": "TO",
-    "as": "AS",
-    "len": "LEN",
-    "return": "RETURN",
-    "int": "INT",
-    "vector": "VECTOR",
-    "str": "STRING",
+    "scan": "SCAN",
+    "print": "PRINT",
+    "list": "LIST",
+    "length": "LENGTH",
+    "exit": "EXIT",
     "fn": "FN",
     "as": "AS",
+    "return": "RETURN",
 }
 
 # List of token names.
@@ -73,6 +80,12 @@ def t_NUMBER(t):
     return t
 
 
+def t_STRING(t):
+    r"\"[^\"]*\" "
+    t.value = t.value[1:-1]
+    return t
+
+
 def t_COMMENT(t):
     r"\<%.*%\>"
     pass
@@ -82,6 +95,15 @@ def t_COMMENT(t):
 def t_newline(t):
     r"\n+"
     t.lexer.lineno += len(t.value)
+
+
+# Function to find the column of a token
+def find_column(input, token):
+    last_cr = input.rfind("\n", 0, token.lexpos)
+    if last_cr < 0:
+        last_cr = 0
+    column = token.lexpos - last_cr
+    return column
 
 
 # A string containing ignored characters (spaces and tabs)
@@ -103,11 +125,27 @@ data = """
 fn sum(numlist as vector) <int> {
     <% This is a comment %>
     i :: int = 0;
+    j :: int = 0;
+    x :: boolean = false;
+    "sda"
     result :: int = 0;
     for (i = 0 to length(numlist))
         begin
             result = result + numlist[i];
         end
+    if x < 0
+        begin
+            return 0;
+        end
+    elseif x = 0
+        begin
+            return result;
+        end
+    else
+        begin
+            return result;
+        end
+    
     return result;    
 }
 """
@@ -115,9 +153,18 @@ fn sum(numlist as vector) <int> {
 # Give the lexer some input
 lexer.input(data)
 
+# Create a table with headers
+table = PrettyTable(["Token", "Value", "Line", "Column"])
+
 # Tokenize
 while True:
     tok = lexer.token()
     if not tok:
         break  # No more input
-    print(tok)
+    column = find_column(data, tok)
+
+    # Add row to the table
+    table.add_row([tok.type, tok.value, tok.lineno - 1, column])
+
+# Print the table
+print(table)
