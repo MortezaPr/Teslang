@@ -87,7 +87,7 @@ def t_STRING(t):
 
 
 def t_COMMENT(t):
-    r"\<%.*%\>"
+    r"\<%[\s\S]*?%\>"
     pass
 
 
@@ -123,7 +123,9 @@ lexer = lex.lex()
 # Test it out
 data = """
 fn sum(numlist as vector) <int> {
-    <% This is a comment %>
+    <% This is a comment
+     asds
+       %>
     i :: int = 0;
     j :: int = 0;
     x :: boolean = false;
