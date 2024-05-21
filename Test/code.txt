@@ -1,0 +1,28 @@
+fn sum(numlist as vector) <int> {
+    <% This is a comment
+     asds
+       %>
+    i :: int = 0;
+    j :: int = 0;
+    x :: boolean = false;
+    "sda"
+    result :: int = 0;
+    for (i = 0 to length(numlist))
+        begin
+            result = result + numlist[i];
+        end
+    if x < 0
+        begin
+            return 0;
+        end
+    elseif x = 0
+        begin
+            return result;
+        end
+    else
+        begin
+            return result;
+        end
+
+    return result;
+}
