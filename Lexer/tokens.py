@@ -3,17 +3,12 @@ class Tokens(object):
     reserved = {
         "int": "INT",
         "str": "STRING",
-        "bool": "BOOLEAN",
-        "null": "NULL",
+        "boolean": "BOOLEAN",
         "false": "FALSE",
-        'auto': 'AUTO',
-        'break': 'BREAK',
-        'case': 'CASE',
         "true": "TRUE",
         "vector": "VECTOR",
         "if": "IF",
         "elseif": "ELSEIF",
-        'continue': 'CONTINUE',
         "else": "ELSE",
         "while": "WHILE",
         "for": "FOR",
@@ -28,27 +23,41 @@ class Tokens(object):
         "fn": "FN",
         "as": "AS",
         "return": "RETURN",
+        "null": "NULL",
+        "do": "DO"
     }
 
     # List of token names.
     tokens = [
                  "ID",
                  "LESS_THAN",
+                 "LESS_THAN_EQ",
                  "EQ",
                  "GREATER_THAN",
+                 "GREATER_THAN_EQ",
                  "PLUS",
                  "MINUS",
                  "TIMES",
                  "DIVIDE",
                  "NUMBER",
                  "SEMI_COLON",
+                 "COMMA"
                  "DBL_COLON",
+                 "COLON"
                  "LPAREN",
                  "RPAREN",
                  "LCURLYEBR",
                  "RCURLYEBR",
                  "LSQUAREBR",
+                 "DOUBLE_LSQUAREBR",
+                 "DOUBLE_RSQUAREBR",
                  "RSQUAREBR",
+                 "QUESTION_MARK",
+                 "AND",
+                 "OR",
+                 "DOUBLE_EQ",
+                 "NOT_EQ",
+                 "NOT",
              ] + list(reserved.values())
 
     # Regular expression rules for simple tokens
@@ -67,6 +76,18 @@ class Tokens(object):
     t_RSQUAREBR = r"\]"
     t_SEMI_COLON = r";"
     t_DBL_COLON = r"::"
+    t_LESS_THAN_EQ = r"<="
+    t_GREATER_THAN_EQ = r">="
+    t_COMMA = r","
+    t_COLON = r":"
+    t_DOUBLE_LSQUAREBR = r"\[\["
+    t_DOUBLE_RSQUAREBR = r"\]\]"
+    t_QUESTION_MARK = r"\?"
+    t_AND = r"&&"
+    t_OR = r"\|\|"
+    t_DOUBLE_EQ = r"=="
+    t_NOT_EQ = r"!="
+    t_NOT = r"!"
 
     # A regular expression rule with some action code
     def t_ID(self, t):
