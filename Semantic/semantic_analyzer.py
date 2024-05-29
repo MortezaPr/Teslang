@@ -1,4 +1,5 @@
-from utils.symbol_table import SymbolTable
+from Utils.symbol_table import SymbolTable
+
 
 class SemanticAnalyzer:
     def __init__(self):
