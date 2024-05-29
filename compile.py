@@ -1,24 +1,28 @@
-from Lexer.lexer import Lexer
 from Lexer.tokens import Tokens
+from Lexer.lexer import Lexer
+from Parser.grammar import Parser
+from Semantic.semantic_analyzer import SemanticAnalyzer
 
 
-class Compiler(object):
-    def __init__(self, data):
-        self.data = data
+def compile_teslang(code):
+    tokens = Tokens()
+    lexer = Lexer(tokens)
+    parser = Parser()
 
-        # Create instance of Tokens with lexer_messages as an argument
-        self.tokens = Tokens()
+    # lexer.build(code)
+    parse_tree = parser.parse(code, lexer)
 
-        # Create instance of Lexer with tokens as an argument
-        self.lexer = Lexer(self.tokens)
-
-    def compile(self):
-        self.lexer.build(self.data)
+    if parse_tree:
+        analyzer = SemanticAnalyzer()
+        analyzer.analyze(parse_tree)
 
 
-if __name__ == '__main__':
-    with open("./Test/code.txt") as f:
-        data = f.read()
-        f.close()
-    compiler = Compiler(data)
-    compiler.compile()
+if __name__ == "__main__":
+    code = """
+    x = 5;
+    y = x + 2;
+    z = w + 3;
+    print(y);
+    """
+
+    compile_teslang(code)

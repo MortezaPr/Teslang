@@ -1,0 +1,541 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    AS
+    BEGIN
+    BOOLEAN
+    DBL_COLON
+    ELSE
+    ELSEIF
+    END
+    EXIT
+    FALSE
+    FN
+    FOR
+    GREATER_THAN
+    IF
+    INT
+    LCURLYEBR
+    LENGTH
+    LESS_THAN
+    LIST
+    LSQUAREBR
+    RCURLYEBR
+    RETURN
+    RSQUAREBR
+    SCAN
+    STRING
+    TO
+    TRUE
+    VECTOR
+    WHILE
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> statement_list
+Rule 2     statement_list -> statement
+Rule 3     statement_list -> statement_list statement
+Rule 4     statement -> assignment_statement
+Rule 5     statement -> print_statement
+Rule 6     assignment_statement -> ID EQ expression SEMI_COLON
+Rule 7     print_statement -> PRINT LPAREN expression RPAREN SEMI_COLON
+Rule 8     expression -> expression PLUS expression
+Rule 9     expression -> expression MINUS expression
+Rule 10    expression -> expression TIMES expression
+Rule 11    expression -> expression DIVIDE expression
+Rule 12    expression -> LPAREN expression RPAREN
+Rule 13    expression -> NUMBER
+Rule 14    expression -> ID
+
+Terminals, with rules where they appear
+
+AS                   : 
+BEGIN                : 
+BOOLEAN              : 
+DBL_COLON            : 
+DIVIDE               : 11
+ELSE                 : 
+ELSEIF               : 
+END                  : 
+EQ                   : 6
+EXIT                 : 
+FALSE                : 
+FN                   : 
+FOR                  : 
+GREATER_THAN         : 
+ID                   : 6 14
+IF                   : 
+INT                  : 
+LCURLYEBR            : 
+LENGTH               : 
+LESS_THAN            : 
+LIST                 : 
+LPAREN               : 7 12
+LSQUAREBR            : 
+MINUS                : 9
+NUMBER               : 13
+PLUS                 : 8
+PRINT                : 7
+RCURLYEBR            : 
+RETURN               : 
+RPAREN               : 7 12
+RSQUAREBR            : 
+SCAN                 : 
+SEMI_COLON           : 6 7
+STRING               : 
+TIMES                : 10
+TO                   : 
+TRUE                 : 
+VECTOR               : 
+WHILE                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+assignment_statement : 4
+expression           : 6 7 8 8 9 9 10 10 11 11 12
+print_statement      : 5
+program              : 0
+statement            : 2 3
+statement_list       : 1 3
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . statement_list
+    (2) statement_list -> . statement
+    (3) statement_list -> . statement_list statement
+    (4) statement -> . assignment_statement
+    (5) statement -> . print_statement
+    (6) assignment_statement -> . ID EQ expression SEMI_COLON
+    (7) print_statement -> . PRINT LPAREN expression RPAREN SEMI_COLON
+
+    ID              shift and go to state 6
+    PRINT           shift and go to state 7
+
+    program                        shift and go to state 1
+    statement_list                 shift and go to state 2
+    statement                      shift and go to state 3
+    assignment_statement           shift and go to state 4
+    print_statement                shift and go to state 5
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> statement_list .
+    (3) statement_list -> statement_list . statement
+    (4) statement -> . assignment_statement
+    (5) statement -> . print_statement
+    (6) assignment_statement -> . ID EQ expression SEMI_COLON
+    (7) print_statement -> . PRINT LPAREN expression RPAREN SEMI_COLON
+
+    $end            reduce using rule 1 (program -> statement_list .)
+    ID              shift and go to state 6
+    PRINT           shift and go to state 7
+
+    statement                      shift and go to state 8
+    assignment_statement           shift and go to state 4
+    print_statement                shift and go to state 5
+
+state 3
+
+    (2) statement_list -> statement .
+
+    ID              reduce using rule 2 (statement_list -> statement .)
+    PRINT           reduce using rule 2 (statement_list -> statement .)
+    $end            reduce using rule 2 (statement_list -> statement .)
+
+
+state 4
+
+    (4) statement -> assignment_statement .
+
+    ID              reduce using rule 4 (statement -> assignment_statement .)
+    PRINT           reduce using rule 4 (statement -> assignment_statement .)
+    $end            reduce using rule 4 (statement -> assignment_statement .)
+
+
+state 5
+
+    (5) statement -> print_statement .
+
+    ID              reduce using rule 5 (statement -> print_statement .)
+    PRINT           reduce using rule 5 (statement -> print_statement .)
+    $end            reduce using rule 5 (statement -> print_statement .)
+
+
+state 6
+
+    (6) assignment_statement -> ID . EQ expression SEMI_COLON
+
+    EQ              shift and go to state 9
+
+
+state 7
+
+    (7) print_statement -> PRINT . LPAREN expression RPAREN SEMI_COLON
+
+    LPAREN          shift and go to state 10
+
+
+state 8
+
+    (3) statement_list -> statement_list statement .
+
+    ID              reduce using rule 3 (statement_list -> statement_list statement .)
+    PRINT           reduce using rule 3 (statement_list -> statement_list statement .)
+    $end            reduce using rule 3 (statement_list -> statement_list statement .)
+
+
+state 9
+
+    (6) assignment_statement -> ID EQ . expression SEMI_COLON
+    (8) expression -> . expression PLUS expression
+    (9) expression -> . expression MINUS expression
+    (10) expression -> . expression TIMES expression
+    (11) expression -> . expression DIVIDE expression
+    (12) expression -> . LPAREN expression RPAREN
+    (13) expression -> . NUMBER
+    (14) expression -> . ID
+
+    LPAREN          shift and go to state 13
+    NUMBER          shift and go to state 14
+    ID              shift and go to state 11
+
+    expression                     shift and go to state 12
+
+state 10
+
+    (7) print_statement -> PRINT LPAREN . expression RPAREN SEMI_COLON
+    (8) expression -> . expression PLUS expression
+    (9) expression -> . expression MINUS expression
+    (10) expression -> . expression TIMES expression
+    (11) expression -> . expression DIVIDE expression
+    (12) expression -> . LPAREN expression RPAREN
+    (13) expression -> . NUMBER
+    (14) expression -> . ID
+
+    LPAREN          shift and go to state 13
+    NUMBER          shift and go to state 14
+    ID              shift and go to state 11
+
+    expression                     shift and go to state 15
+
+state 11
+
+    (14) expression -> ID .
+
+    SEMI_COLON      reduce using rule 14 (expression -> ID .)
+    PLUS            reduce using rule 14 (expression -> ID .)
+    MINUS           reduce using rule 14 (expression -> ID .)
+    TIMES           reduce using rule 14 (expression -> ID .)
+    DIVIDE          reduce using rule 14 (expression -> ID .)
+    RPAREN          reduce using rule 14 (expression -> ID .)
+
+
+state 12
+
+    (6) assignment_statement -> ID EQ expression . SEMI_COLON
+    (8) expression -> expression . PLUS expression
+    (9) expression -> expression . MINUS expression
+    (10) expression -> expression . TIMES expression
+    (11) expression -> expression . DIVIDE expression
+
+    SEMI_COLON      shift and go to state 16
+    PLUS            shift and go to state 17
+    MINUS           shift and go to state 18
+    TIMES           shift and go to state 19
+    DIVIDE          shift and go to state 20
+
+
+state 13
+
+    (12) expression -> LPAREN . expression RPAREN
+    (8) expression -> . expression PLUS expression
+    (9) expression -> . expression MINUS expression
+    (10) expression -> . expression TIMES expression
+    (11) expression -> . expression DIVIDE expression
+    (12) expression -> . LPAREN expression RPAREN
+    (13) expression -> . NUMBER
+    (14) expression -> . ID
+
+    LPAREN          shift and go to state 13
+    NUMBER          shift and go to state 14
+    ID              shift and go to state 11
+
+    expression                     shift and go to state 21
+
+state 14
+
+    (13) expression -> NUMBER .
+
+    SEMI_COLON      reduce using rule 13 (expression -> NUMBER .)
+    PLUS            reduce using rule 13 (expression -> NUMBER .)
+    MINUS           reduce using rule 13 (expression -> NUMBER .)
+    TIMES           reduce using rule 13 (expression -> NUMBER .)
+    DIVIDE          reduce using rule 13 (expression -> NUMBER .)
+    RPAREN          reduce using rule 13 (expression -> NUMBER .)
+
+
+state 15
+
+    (7) print_statement -> PRINT LPAREN expression . RPAREN SEMI_COLON
+    (8) expression -> expression . PLUS expression
+    (9) expression -> expression . MINUS expression
+    (10) expression -> expression . TIMES expression
+    (11) expression -> expression . DIVIDE expression
+
+    RPAREN          shift and go to state 22
+    PLUS            shift and go to state 17
+    MINUS           shift and go to state 18
+    TIMES           shift and go to state 19
+    DIVIDE          shift and go to state 20
+
+
+state 16
+
+    (6) assignment_statement -> ID EQ expression SEMI_COLON .
+
+    ID              reduce using rule 6 (assignment_statement -> ID EQ expression SEMI_COLON .)
+    PRINT           reduce using rule 6 (assignment_statement -> ID EQ expression SEMI_COLON .)
+    $end            reduce using rule 6 (assignment_statement -> ID EQ expression SEMI_COLON .)
+
+
+state 17
+
+    (8) expression -> expression PLUS . expression
+    (8) expression -> . expression PLUS expression
+    (9) expression -> . expression MINUS expression
+    (10) expression -> . expression TIMES expression
+    (11) expression -> . expression DIVIDE expression
+    (12) expression -> . LPAREN expression RPAREN
+    (13) expression -> . NUMBER
+    (14) expression -> . ID
+
+    LPAREN          shift and go to state 13
+    NUMBER          shift and go to state 14
+    ID              shift and go to state 11
+
+    expression                     shift and go to state 23
+
+state 18
+
+    (9) expression -> expression MINUS . expression
+    (8) expression -> . expression PLUS expression
+    (9) expression -> . expression MINUS expression
+    (10) expression -> . expression TIMES expression
+    (11) expression -> . expression DIVIDE expression
+    (12) expression -> . LPAREN expression RPAREN
+    (13) expression -> . NUMBER
+    (14) expression -> . ID
+
+    LPAREN          shift and go to state 13
+    NUMBER          shift and go to state 14
+    ID              shift and go to state 11
+
+    expression                     shift and go to state 24
+
+state 19
+
+    (10) expression -> expression TIMES . expression
+    (8) expression -> . expression PLUS expression
+    (9) expression -> . expression MINUS expression
+    (10) expression -> . expression TIMES expression
+    (11) expression -> . expression DIVIDE expression
+    (12) expression -> . LPAREN expression RPAREN
+    (13) expression -> . NUMBER
+    (14) expression -> . ID
+
+    LPAREN          shift and go to state 13
+    NUMBER          shift and go to state 14
+    ID              shift and go to state 11
+
+    expression                     shift and go to state 25
+
+state 20
+
+    (11) expression -> expression DIVIDE . expression
+    (8) expression -> . expression PLUS expression
+    (9) expression -> . expression MINUS expression
+    (10) expression -> . expression TIMES expression
+    (11) expression -> . expression DIVIDE expression
+    (12) expression -> . LPAREN expression RPAREN
+    (13) expression -> . NUMBER
+    (14) expression -> . ID
+
+    LPAREN          shift and go to state 13
+    NUMBER          shift and go to state 14
+    ID              shift and go to state 11
+
+    expression                     shift and go to state 26
+
+state 21
+
+    (12) expression -> LPAREN expression . RPAREN
+    (8) expression -> expression . PLUS expression
+    (9) expression -> expression . MINUS expression
+    (10) expression -> expression . TIMES expression
+    (11) expression -> expression . DIVIDE expression
+
+    RPAREN          shift and go to state 27
+    PLUS            shift and go to state 17
+    MINUS           shift and go to state 18
+    TIMES           shift and go to state 19
+    DIVIDE          shift and go to state 20
+
+
+state 22
+
+    (7) print_statement -> PRINT LPAREN expression RPAREN . SEMI_COLON
+
+    SEMI_COLON      shift and go to state 28
+
+
+state 23
+
+    (8) expression -> expression PLUS expression .
+    (8) expression -> expression . PLUS expression
+    (9) expression -> expression . MINUS expression
+    (10) expression -> expression . TIMES expression
+    (11) expression -> expression . DIVIDE expression
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+    SEMI_COLON      reduce using rule 8 (expression -> expression PLUS expression .)
+    RPAREN          reduce using rule 8 (expression -> expression PLUS expression .)
+    PLUS            shift and go to state 17
+    MINUS           shift and go to state 18
+    TIMES           shift and go to state 19
+    DIVIDE          shift and go to state 20
+
+  ! PLUS            [ reduce using rule 8 (expression -> expression PLUS expression .) ]
+  ! MINUS           [ reduce using rule 8 (expression -> expression PLUS expression .) ]
+  ! TIMES           [ reduce using rule 8 (expression -> expression PLUS expression .) ]
+  ! DIVIDE          [ reduce using rule 8 (expression -> expression PLUS expression .) ]
+
+
+state 24
+
+    (9) expression -> expression MINUS expression .
+    (8) expression -> expression . PLUS expression
+    (9) expression -> expression . MINUS expression
+    (10) expression -> expression . TIMES expression
+    (11) expression -> expression . DIVIDE expression
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+    SEMI_COLON      reduce using rule 9 (expression -> expression MINUS expression .)
+    RPAREN          reduce using rule 9 (expression -> expression MINUS expression .)
+    PLUS            shift and go to state 17
+    MINUS           shift and go to state 18
+    TIMES           shift and go to state 19
+    DIVIDE          shift and go to state 20
+
+  ! PLUS            [ reduce using rule 9 (expression -> expression MINUS expression .) ]
+  ! MINUS           [ reduce using rule 9 (expression -> expression MINUS expression .) ]
+  ! TIMES           [ reduce using rule 9 (expression -> expression MINUS expression .) ]
+  ! DIVIDE          [ reduce using rule 9 (expression -> expression MINUS expression .) ]
+
+
+state 25
+
+    (10) expression -> expression TIMES expression .
+    (8) expression -> expression . PLUS expression
+    (9) expression -> expression . MINUS expression
+    (10) expression -> expression . TIMES expression
+    (11) expression -> expression . DIVIDE expression
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+    SEMI_COLON      reduce using rule 10 (expression -> expression TIMES expression .)
+    RPAREN          reduce using rule 10 (expression -> expression TIMES expression .)
+    PLUS            shift and go to state 17
+    MINUS           shift and go to state 18
+    TIMES           shift and go to state 19
+    DIVIDE          shift and go to state 20
+
+  ! PLUS            [ reduce using rule 10 (expression -> expression TIMES expression .) ]
+  ! MINUS           [ reduce using rule 10 (expression -> expression TIMES expression .) ]
+  ! TIMES           [ reduce using rule 10 (expression -> expression TIMES expression .) ]
+  ! DIVIDE          [ reduce using rule 10 (expression -> expression TIMES expression .) ]
+
+
+state 26
+
+    (11) expression -> expression DIVIDE expression .
+    (8) expression -> expression . PLUS expression
+    (9) expression -> expression . MINUS expression
+    (10) expression -> expression . TIMES expression
+    (11) expression -> expression . DIVIDE expression
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+    SEMI_COLON      reduce using rule 11 (expression -> expression DIVIDE expression .)
+    RPAREN          reduce using rule 11 (expression -> expression DIVIDE expression .)
+    PLUS            shift and go to state 17
+    MINUS           shift and go to state 18
+    TIMES           shift and go to state 19
+    DIVIDE          shift and go to state 20
+
+  ! PLUS            [ reduce using rule 11 (expression -> expression DIVIDE expression .) ]
+  ! MINUS           [ reduce using rule 11 (expression -> expression DIVIDE expression .) ]
+  ! TIMES           [ reduce using rule 11 (expression -> expression DIVIDE expression .) ]
+  ! DIVIDE          [ reduce using rule 11 (expression -> expression DIVIDE expression .) ]
+
+
+state 27
+
+    (12) expression -> LPAREN expression RPAREN .
+
+    SEMI_COLON      reduce using rule 12 (expression -> LPAREN expression RPAREN .)
+    PLUS            reduce using rule 12 (expression -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 12 (expression -> LPAREN expression RPAREN .)
+    TIMES           reduce using rule 12 (expression -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 12 (expression -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 12 (expression -> LPAREN expression RPAREN .)
+
+
+state 28
+
+    (7) print_statement -> PRINT LPAREN expression RPAREN SEMI_COLON .
+
+    ID              reduce using rule 7 (print_statement -> PRINT LPAREN expression RPAREN SEMI_COLON .)
+    PRINT           reduce using rule 7 (print_statement -> PRINT LPAREN expression RPAREN SEMI_COLON .)
+    $end            reduce using rule 7 (print_statement -> PRINT LPAREN expression RPAREN SEMI_COLON .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for PLUS in state 23 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 23 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 23 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 23 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 24 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 24 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 24 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 24 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 25 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 25 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 25 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 25 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 26 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 26 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 26 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 26 resolved as shift
