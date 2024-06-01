@@ -1,7 +1,9 @@
 fn sum(numlist as vector, numb as int) <int> {
     <% This is a comment
-     asds
-       %>
+        <% This is a comment asds %>
+     this is a comment
+    %>
+    'sadas'
     i :: int = 0;
     j :: int = 0;
     x :: boolean = false;
@@ -34,4 +36,8 @@ fn sum(numlist as vector, numb as int) <int> {
         end
 
     return result;
+
+   <% This is a comment
+     asds
+       %>
 }

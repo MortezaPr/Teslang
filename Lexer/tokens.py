@@ -101,7 +101,7 @@ class Tokens(object):
         return t
 
     def t_STRING(self, t):
-        r"\"[^\"]*\" "
+        r"(\"[^\"]*\"|'[^']*')"
         t.value = t.value[1:-1]
         return t
 
