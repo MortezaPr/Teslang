@@ -1,9 +1,6 @@
 fn sum(numlist as vector, numb as int) <int> {
     "test\'\"\n"
-    <% This is a comment
-        <% This is a comment asds %>
-     this is a comment
-    %>
+    <% This is a comment <% This is a <% This is a comment asds %> comment asds %> sd ds %>
     'sadas'
     i :: int = 0;
     j :: int = 0;

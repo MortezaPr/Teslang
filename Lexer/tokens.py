@@ -1,3 +1,4 @@
+import regex
 class Tokens(object):
     # Reserved words
     reserved = {
@@ -106,8 +107,21 @@ class Tokens(object):
         return t
 
     def t_COMMENT(self, t):
-        r"\<%[\s\S]*?%\>"
+        r"\<%"
+        t.lexer.comment_count = 1
         t.lexer.lineno += t.value.count("\n")
+        while t.lexer.comment_count > 0:
+            next_char = t.lexer.lexdata[t.lexer.lexpos]
+            if next_char == "%" and t.lexer.lexdata[t.lexer.lexpos+1] == ">":
+                t.lexer.comment_count -= 1
+                t.lexer.lexpos += 2
+            elif next_char == "<" and t.lexer.lexdata[t.lexer.lexpos+1] == "%":
+                t.lexer.comment_count += 1
+                t.lexer.lexpos += 2
+            else:
+                t.lexer.lexpos += 1
+            if next_char == "\n":
+                t.lexer.lineno += 1
         pass
 
     # Define a rule so we can track line numbers
