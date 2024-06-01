@@ -1,4 +1,3 @@
-import regex
 class Tokens(object):
     # Reserved words
     reserved = {
