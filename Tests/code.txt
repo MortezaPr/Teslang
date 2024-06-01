@@ -1,11 +1,12 @@
-fn sum(numlist as vector) <int> {
+fn sum(numlist as vector, numb as int) <int> {
     <% This is a comment
      asds
        %>
     i :: int = 0;
     j :: int = 0;
     x :: boolean = false;
-    "sda"
+    print("sda")
+    scan(x)
     result :: int = 0;
     for (i = 0 to length(numlist))
         begin

@@ -29,36 +29,36 @@ class Tokens(object):
 
     # List of token names.
     tokens = [
-                 "ID",
-                 "LESS_THAN",
-                 "LESS_THAN_EQ",
-                 "EQ",
-                 "GREATER_THAN",
-                 "GREATER_THAN_EQ",
-                 "PLUS",
-                 "MINUS",
-                 "TIMES",
-                 "DIVIDE",
-                 "NUMBER",
-                 "SEMI_COLON",
-                 "COMMA"
-                 "DBL_COLON",
-                 "COLON"
-                 "LPAREN",
-                 "RPAREN",
-                 "LCURLYEBR",
-                 "RCURLYEBR",
-                 "LSQUAREBR",
-                 "DOUBLE_LSQUAREBR",
-                 "DOUBLE_RSQUAREBR",
-                 "RSQUAREBR",
-                 "QUESTION_MARK",
-                 "AND",
-                 "OR",
-                 "DOUBLE_EQ",
-                 "NOT_EQ",
-                 "NOT",
-             ] + list(reserved.values())
+        "ID",
+        "LESS_THAN",
+        "LESS_THAN_EQ",
+        "EQ",
+        "GREATER_THAN",
+        "GREATER_THAN_EQ",
+        "PLUS",
+        "MINUS",
+        "TIMES",
+        "DIVIDE",
+        "NUMBER",
+        "SEMI_COLON",
+        "COMMA",            # Added missing comma
+        "DBL_COLON",        # Added missing token
+        "COLON",            # Added missing token
+        "LPAREN",           # Added missing token
+        "RPAREN",
+        "LCURLYEBR",
+        "RCURLYEBR",
+        "LSQUAREBR",
+        "DOUBLE_LSQUAREBR",
+        "DOUBLE_RSQUAREBR",
+        "RSQUAREBR",
+        "QUESTION_MARK",
+        "AND",
+        "OR",
+        "DOUBLE_EQ",
+        "NOT_EQ",
+        "NOT"
+    ] + list(reserved.values())
 
     # Regular expression rules for simple tokens
     t_PLUS = r"\+"
@@ -68,18 +68,18 @@ class Tokens(object):
     t_LESS_THAN = r"<"
     t_GREATER_THAN = r">"
     t_EQ = r"="
-    t_LPAREN = r"\("
+    t_LPAREN = r"\("  # Already defined
     t_RPAREN = r"\)"
     t_LCURLYEBR = r"\{"
     t_RCURLYEBR = r"\}"
     t_LSQUAREBR = r"\["
     t_RSQUAREBR = r"\]"
     t_SEMI_COLON = r";"
-    t_DBL_COLON = r"::"
+    t_DBL_COLON = r"::"  # Already defined
     t_LESS_THAN_EQ = r"<="
     t_GREATER_THAN_EQ = r">="
-    t_COMMA = r","
-    t_COLON = r":"
+    t_COMMA = r","  # Already defined
+    t_COLON = r":"  # Already defined
     t_DOUBLE_LSQUAREBR = r"\[\["
     t_DOUBLE_RSQUAREBR = r"\]\]"
     t_QUESTION_MARK = r"\?"
@@ -107,7 +107,7 @@ class Tokens(object):
 
     def t_COMMENT(self, t):
         r"\<%[\s\S]*?%\>"
-        t.lexer.lineno += t.value.count('\n')
+        t.lexer.lineno += t.value.count("\n")
         pass
 
     # Define a rule so we can track line numbers
