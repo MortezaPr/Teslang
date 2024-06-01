@@ -41,10 +41,10 @@ class Tokens(object):
         "DIVIDE",
         "NUMBER",
         "SEMI_COLON",
-        "COMMA",            # Added missing comma
-        "DBL_COLON",        # Added missing token
-        "COLON",            # Added missing token
-        "LPAREN",           # Added missing token
+        "COMMA",
+        "DBL_COLON",
+        "COLON",
+        "LPAREN",
         "RPAREN",
         "LCURLYEBR",
         "RCURLYEBR",
@@ -68,18 +68,18 @@ class Tokens(object):
     t_LESS_THAN = r"<"
     t_GREATER_THAN = r">"
     t_EQ = r"="
-    t_LPAREN = r"\("  # Already defined
+    t_LPAREN = r"\("
     t_RPAREN = r"\)"
     t_LCURLYEBR = r"\{"
     t_RCURLYEBR = r"\}"
     t_LSQUAREBR = r"\["
     t_RSQUAREBR = r"\]"
     t_SEMI_COLON = r";"
-    t_DBL_COLON = r"::"  # Already defined
+    t_DBL_COLON = r"::"
     t_LESS_THAN_EQ = r"<="
     t_GREATER_THAN_EQ = r">="
-    t_COMMA = r","  # Already defined
-    t_COLON = r":"  # Already defined
+    t_COMMA = r","
+    t_COLON = r":"
     t_DOUBLE_LSQUAREBR = r"\[\["
     t_DOUBLE_RSQUAREBR = r"\]\]"
     t_QUESTION_MARK = r"\?"

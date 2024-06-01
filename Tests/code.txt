@@ -7,6 +7,14 @@ fn sum(numlist as vector, numb as int) <int> {
     x :: boolean = false;
     print("sda")
     scan(x)
+    if [[ n < 2 ]]
+     begin
+        return
+     end
+    fn sum(a as int, b as int) <int> return a+b;
+    length(n)
+    list(n)
+    exit(n)
     result :: int = 0;
     for (i = 0 to length(numlist))
         begin
