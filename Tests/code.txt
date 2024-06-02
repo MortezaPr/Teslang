@@ -1,42 +1,74 @@
-fn sum(numlist as vector, numb as int) <int> {
-    x :: vector = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    "test\'\"\n"
-    <% This is a comment <% This is a <% This is a comment asds %> comment asds %> sd ds %>
-    'sadas'
-    i :: int = 0;
-    j :: int = 0;
-    x :: boolean = false;
-    print("sda")
-    scan(x)
-    if [[ n < 2 ]]
-     begin
-        return
-     end
-    fn sum(a as int, b as int) <int> return a+b;
-    length(n)
-    list(n)
-    exit(n)
+<% Comment %>
+<% Comment int >< >% %>
+<%
+comment 
+int
+scan()
+print()
+%>
+fn sum(numlist as vector) <int> {
     result :: int = 0;
+
+    <% Comment %>
+    test :: str = "test";
+    test2 :: str = 'test'
     for (i = 0 to length(numlist))
-        begin
-            result = result + numlist[i];
-        end
-    if x < 0
-        begin
-            return 0;
-        end
-    elseif x = 0
-        begin
-            return result;
-        end
-    else
-        begin
-            return result;
-        end
-
+    begin
+        result = result + numlist[i];
+        <% Comment %>
+        <% Comment int >< >% %>
+        <%
+        comment 
+        int
+        scan()
+        print()
+        %>
+        scan();
+        exit();
+    end
     return result;
-
-   <% This is a comment
-     asds
-       %>
 }
+test3 :: str = "fn sum(numlist as vector) <int> {
+    result :: int = 0;
+
+    <% Comment %>
+    test :: str = 'test';
+    test2 :: str = 'test'
+    for (i = 0 to length(numlist))
+    begin
+        result = result + numlist[i];
+        <% Comment %>
+        <% Comment int >< >% %>
+        <%
+        comment 
+        int
+        scan()
+        print()
+        %>
+        scan();
+        exit();
+    end
+    return result;
+}"
+
+<% fn sum(numlist as vector) <int> {
+    result :: int = 0;
+
+    <% Comment %>
+
+    for (i = 0 to length(numlist))
+    begin
+        result = result + numlist[i];
+        <% Comment %>
+        <% Comment int >< >% %>
+        <%
+        comment 
+        int
+        scan()
+        print()
+        %>
+        scan();
+        exit();
+    end
+    return result;
+} %>

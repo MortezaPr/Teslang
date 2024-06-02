@@ -106,7 +106,7 @@ class Tokens(object):
         return t
 
     def t_STRING(self, t):
-        r"\"([^\\\n]|(\\.))*?\"|'([^\\\n]|(\\.))*?'"
+        r'"([^"\\]|\\.)*"|\'([^\'\\]|\\.)*\''
         t.value = t.value[1:-1].encode().decode('unicode_escape')  # Handle escape sequences
         return t
 
