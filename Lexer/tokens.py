@@ -6,6 +6,7 @@ class Tokens(object):
         "boolean": "BOOLEAN",
         "false": "FALSE",
         "true": "TRUE",
+        "array": "ARRAY",
         "vector": "VECTOR",
         "if": "IF",
         "elseif": "ELSEIF",
@@ -93,6 +94,10 @@ class Tokens(object):
     def t_ID(self, t):
         r"[a-zA-Z_][a-zA-Z_0-9]*"
         t.type = self.reserved.get(t.value, "ID")  # Check for reserved words
+        return t
+
+    def t_ARRAY(self, t):
+        r"\[.*?\]"
         return t
 
     def t_NUMBER(self, t):
