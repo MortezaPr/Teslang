@@ -107,9 +107,9 @@ class Parser:
         """defvar : ID DBL_COLON type
         | ID DBL_COLON type EQ expr"""
         if len(p) == 4:
-            p[0] = VariableDecl(id=p[1], type=p[3], pos=p.lineno(1), expr=None)
+            p[0] = VariableDecl(id=p[1], type=p[3], position=p.lineno(1), expr=None)
         elif len(p) == 6:
-            p[0] = VariableDecl(id=p[1], type=p[3], pos=p.lineno(1), expr=p[5])
+            p[0] = VariableDecl(id=p[1], type=p[3], position=p.lineno(1), expr=p[5])
 
     def p_type(self, p):
         """type : INT

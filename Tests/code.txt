@@ -1,34 +1,4 @@
-<% Comment %>
-<% Comment int >< >% %>
-<%
-comment 
-int
-scan()
-print()
-%>
-fn sum(numlist as vector) <int> {
-    result :: int = 0;
-
-    <% Comment %>
-    test :: str = "test";
-    test2 :: str = 'test'
-    for (i = 0 to length(numlist))
-    begin
-        result = result + numlist[i];
-        <% Comment %>
-        <% Comment int >< >% %>
-        <%
-        comment 
-        int
-        scan()
-        print()
-        %>
-        scan();
-        exit();
-    end
-    return result;
-}
-test3 :: str = "fn sum(numlist as vector) <int> {
+test :: str = "fn sum(numlist as vector) <int> {
     result :: int = 0;
 
     <% Comment %>
@@ -50,25 +20,3 @@ test3 :: str = "fn sum(numlist as vector) <int> {
     end
     return result;
 }"
-
-<% fn sum(numlist as vector) <int> {
-    result :: int = 0;
-
-    <% Comment %>
-
-    for (i = 0 to length(numlist))
-    begin
-        result = result + numlist[i];
-        <% Comment %>
-        <% Comment int >< >% %>
-        <%
-        comment 
-        int
-        scan()
-        print()
-        %>
-        scan();
-        exit();
-    end
-    return result;
-} %>
