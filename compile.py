@@ -1,6 +1,6 @@
 from Lexer.tokens import Tokens
 from Lexer.lexer import Lexer
-from Parser.grammar import Parser
+from Parser.parser import Parser
 from Semantic.semantic_analyzer import SemanticAnalyzer
 
 
