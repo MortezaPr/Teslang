@@ -1,22 +1,4 @@
-test :: str = "fn sum(numlist as vector) <int> {
-    result :: int = 0;
+fn sum(numlist as vector) <int> {
+   test3 :: str = "sad";
+}
 
-    <% Comment %>
-    test :: str = 'test';
-    test2 :: str = 'test'
-    for (i = 0 to length(numlist))
-    begin
-        result = result + numlist[i];
-        <% Comment %>
-        <% Comment int >< >% %>
-        <%
-        comment 
-        int
-        scan()
-        print()
-        %>
-        scan();
-        exit();
-    end
-    return result;
-}"

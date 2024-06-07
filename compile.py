@@ -10,13 +10,11 @@ def compile_teslang(code):
     parser = Parser()
 
     # First Step: Lexical Analysis
-    # lexer.build(code)
+    lexer.build(code)
 
     # Second Step: Parsing
     parse_tree = parser.parse(code, lexer)
 
-
-    # parse_tree = parser.parse(code, lexer)
     #
     # if parse_tree:
     #     analyzer = SemanticAnalyzer()

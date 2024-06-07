@@ -122,13 +122,13 @@ class Parser:
     def p_func1(self, p):
         """func1 : FN ID LPAREN flist RPAREN LESS_THAN type GREATER_THAN LCURLYEBR body RCURLYEBR"""
         p[0] = FunctionDef(
-            rettype=p[7], name=p[2], params=p[4], body=p[10], pos=p.lineno(1)
+            rettype=p[7], name=p[2], params=p[4], body=p[10], position=p.lineno(1)
         )
 
     def p_func2(self, p):
         """func2 :  FN ID LPAREN flist RPAREN LESS_THAN type GREATER_THAN EQ GREATER_THAN return_is"""
         p[0] = FunctionDef(
-            rettype=p[7], name=p[2], params=p[4], return_fn=p[11], pos=p.lineno(1)
+            rettype=p[7], name=p[2], params=p[4], return_fn=p[11], position=p.lineno(1)
         )
 
     def p_flist(self, p):
@@ -182,11 +182,11 @@ class Parser:
 
     def p_assignment_expr(self, p):
         """assignment : ID EQ expr"""
-        p[0] = Assignment(id=p[1], expr=p[3], pos=p.lineno(1))
+        p[0] = Assignment(id=p[1], expr=p[3], position=p.lineno(1))
 
     def p_on_list(self, p):
         """on_list : expr LSQUAREBR expr RSQUAREBR"""
-        p[0] = OperationOnList(expr=p[1], index_expr=p[3], pos=p.lineno(1))
+        p[0] = OperationOnList(expr=p[1], index_expr=p[3], position=p.lineno(1))
 
     def p_expr_list(self, p):
         """expr_list : LSQUAREBR clist RSQUAREBR"""
@@ -195,12 +195,12 @@ class Parser:
     def p_ternary_expr(self, p):
         """ternary_expr : expr QUESTION_MARK expr COLON expr"""
         p[0] = TernaryExpr(
-            cond=p[1], first_expr=p[2], second_expr=p[3], pos=p.lineno(1) + 1
+            cond=p[1], first_expr=p[2], second_expr=p[3], position=p.lineno(1) + 1
         )
 
     def p_function_call(self, p):
         """function_call : ID LPAREN clist RPAREN"""
-        p[0] = FunctionCall(id=p[1], args=p[3], pos=p.lineno(1) + 1)
+        p[0] = FunctionCall(id=p[1], args=p[3], position=p.lineno(1) + 1)
 
     def p_binary_expr(self, p):
         """binary_expr :  expr PLUS expr
@@ -218,7 +218,7 @@ class Parser:
         | NOT expr
         | PLUS expr
         | MINUS expr"""
-        p[0] = BinExpr(left=p[1], op=p[2], right=p[3], pos=getPosition(p))
+        p[0] = BinExpr(left=p[1], op=p[2], right=p[3], position=getPosition(p))
 
     def p_builtin_methods(self, p):
         """builtin_methods : SCAN LPAREN RPAREN
@@ -226,9 +226,9 @@ class Parser:
         | LENGTH LPAREN clist RPAREN
         | EXIT LPAREN clist RPAREN"""
         if len(p) == 4:
-            p[0] = FunctionCall(id=p[1], args=None, pos=p.lineno(1) + 1)
+            p[0] = FunctionCall(id=p[1], args=None, position=p.lineno(1) + 1)
         else:
-            p[0] = FunctionCall(id=p[1], args=p[3], pos=p.lineno(1) + 1)
+            p[0] = FunctionCall(id=p[1], args=p[3], position=p.lineno(1) + 1)
 
     # ------- Error ------------------
     def p_single_if_error(self, p):
@@ -258,7 +258,7 @@ class Parser:
             + (p.lineno(1)).__str__()
         )
         p[0] = FunctionDef(
-            rettype=p[7], name=p[2], params=p[4], body=p[10], pos=p.lineno(1)
+            rettype=p[7], name=p[2], params=p[4], body=p[10], position=p.lineno(1)
         )
 
     def p_func2_rtype_error(self, p):
@@ -270,14 +270,14 @@ class Parser:
             + (p.lineno(1)).__str__()
         )
         p[0] = FunctionDef(
-            rettype=p[7], name=p[2], params=p[4], return_fn=p[11], pos=p.lineno(1)
+            rettype=p[7], name=p[2], params=p[4], return_fn=p[11], position=p.lineno(1)
         )
 
     def p_func_flist_error(self, p):
         """func_flist : FN ID LPAREN error RPAREN  LCURLYEBR body RCURLYEBR"""
         print("invalid arguments for function " + p[3] + "at line: " + (p.lineno(1)))
         p[0] = FunctionDef(
-            rettype=p[2], name=p[3], params=None, body=p[8], pos=p.lineno(1)
+            rettype=p[2], name=p[3], params=None, body=p[8], position=p.lineno(1)
         )
 
     def p_else_if_error(self, p):
@@ -295,9 +295,9 @@ class Parser:
         | ID DBL_COLON error EQ expr"""
         print("invalid type for 'def var' at line " + p.lineno(1))
         if len(p) == 4:
-            p[0] = VariableDecl(id=p[1], type=p[3], pos=p.lineno(1), expr=None)
+            p[0] = VariableDecl(id=p[1], type=p[3], position=p.lineno(1), expr=None)
         elif len(p) == 6:
-            p[0] = VariableDecl(id=p[1], type=p[3], pos=p.lineno(1), expr=p[5])
+            p[0] = VariableDecl(id=p[1], type=p[3], position=p.lineno(1), expr=p[5])
 
     def p_flist_type_error(self, p):
         """flist : ID AS error
