@@ -7,9 +7,12 @@ from Semantic.semantic_analyzer import SemanticAnalyzer
 def compile_teslang(code):
     tokens = Tokens()
     lexer = Lexer(tokens)
-    # parser = Parser()
+    parser = Parser()
 
-    lexer.build(code)
+    # First Step: Lexical Analysis
+    # lexer.build(code)
+
+
     # parse_tree = parser.parse(code, lexer)
     #
     # if parse_tree:

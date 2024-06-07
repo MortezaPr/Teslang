@@ -31,6 +31,11 @@ class Parser:
             # todo
             p[0] = Program(prog=p[2], func=p[1], position=p.lineno(1))
 
+    def p_func(self, p):
+        """func : func1
+        | func2"""
+        p[0] = p[1]
+
     def p_empty(self, p):
         """empty :"""
         pass
@@ -180,7 +185,7 @@ class Parser:
         p[0] = Assignment(id=p[1], expr=p[3], pos=p.lineno(1))
 
     def p_on_list(self, p):
-        """p_on_list : expr LSQUAREBR expr RSQUAREBR"""
+        """on_list : expr LSQUAREBR expr RSQUAREBR"""
         p[0] = OperationOnList(expr=p[1], index_expr=p[3], pos=p.lineno(1))
 
     def p_expr_list(self, p):
@@ -227,7 +232,7 @@ class Parser:
 
     # ------- Error ------------------
     def p_single_if_error(self, p):
-        """single_if : IF LBRACE error RBRACE stmt"""
+        """single_if : IF LCURLYEBR error RCURLYEBR stmt"""
         print("Invalid syntax for if statement at line", p.lineno(1))
 
     def p_while_loop_error(self, p):
@@ -280,14 +285,14 @@ class Parser:
         print("invalid statement for else if at line " + p.lineno(1))
 
     def p_for_loop_error(self, p):
-        """for_loop : FOR LAPAREN ID EQ error TO expr RPAREN stmt
-        | FOR LAPAREN ID EQ expr TO error RPAREN stmt
-        | FOR LAPAREN ID EQ error TO error RPAREN stmt"""
+        """for_loop : FOR LPAREN ID EQ error TO expr RPAREN stmt
+        | FOR LPAREN ID EQ expr TO error RPAREN stmt
+        | FOR LPAREN ID EQ error TO error RPAREN stmt"""
         print("invalid expression(s) for 'for' at line " + p.lineno(1))
 
     def p_defvar_type_error(self, p):
         """defvar_type : ID DBL_COLON error
-        | ID DBL_COLOM error EQ expr"""
+        | ID DBL_COLON error EQ expr"""
         print("invalid type for 'def var' at line " + p.lineno(1))
         if len(p) == 4:
             p[0] = VariableDecl(id=p[1], type=p[3], pos=p.lineno(1), expr=None)
