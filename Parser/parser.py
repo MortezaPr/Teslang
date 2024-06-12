@@ -4,15 +4,6 @@ from Lexer.tokens import Tokens
 from Utils.ast import *
 
 
-class FilePosition(object):
-    def __init__(self, line):
-        self.line = line
-
-
-def getPosition(p):
-    return FilePosition(p.lexer.lexer.lineno - 1)
-
-
 class Parser:
     tokens = Tokens.tokens
 
@@ -51,7 +42,11 @@ class Parser:
         | for_loop
         | do_while
         | return_is SEMI_COLON
-        | block"""
+        | block
+        | builtin_methods SEMI_COLON
+        | function_call SEMI_COLON
+        | func1
+        | func2"""
 
         p[0] = p[1]
 
@@ -62,8 +57,10 @@ class Parser:
             p[0] = Body(statement=p[1], body=p[2])
 
     def p_return_is(self, p):
-        """return_is : RETURN expr"""
-        p[0] = ReturnInstruction(expression=p[2], position=p.lineno(1))
+        """return_is : RETURN expr
+                     | RETURN"""
+        if len(p) == 3:
+            p[0] = ReturnInstruction(expression=p[2], position=p.lineno(1))
 
     def p_while_loop(self, p):
         """while_loop : WHILE LPAREN expr RPAREN stmt"""
@@ -100,7 +97,7 @@ class Parser:
     def p_else_if(self, p):
         """else_if : IF DOUBLE_LSQUAREBR expr DOUBLE_RSQUAREBR stmt ELSE stmt"""
         p[0] = IfOrIfElseInstruction(
-            cond=p[3], if_statement=p[5], pos=p.lineno(1), else_statement=p[7]
+            cond=p[3], if_statement=p[5], position=p.lineno(1), else_statement=p[7]
         )
 
     def p_defvar(self, p):
@@ -160,11 +157,14 @@ class Parser:
         | expr_list
         | ternary_expr
         | binary_expr
+        | single_expr
         | ID
         | assignment
         | function_call
         | NUMBER
-        | STRING"""
+        | STRING
+        | NULL
+        | LPAREN expr RPAREN"""
         if len(p) == 4 or len(p) == 3:
             if p[1] == "-":
                 p[2].value = -p[2].value
@@ -195,12 +195,12 @@ class Parser:
     def p_ternary_expr(self, p):
         """ternary_expr : expr QUESTION_MARK expr COLON expr"""
         p[0] = TernaryExpr(
-            cond=p[1], first_expr=p[2], second_expr=p[3], position=p.lineno(1) + 1
+            cond=p[1], first_expr=p[2], second_expr=p[3], position=p.lineno(1)
         )
 
     def p_function_call(self, p):
         """function_call : ID LPAREN clist RPAREN"""
-        p[0] = FunctionCall(id=p[1], args=p[3], position=p.lineno(1) + 1)
+        p[0] = FunctionCall(id=p[1], args=p[3], position=p.lineno(1))
 
     def p_binary_expr(self, p):
         """binary_expr :  expr PLUS expr
@@ -214,11 +214,16 @@ class Parser:
         | expr LESS_THAN_EQ expr
         | expr NOT_EQ expr
         | expr AND expr
-        | expr OR expr
-        | NOT expr
+        | expr OR expr"""
+        p[0] = BinExpr(left=p[1], op=p[2], right=p[3], position=p.lineno(1))
+
+
+    def p_single_expr(self, p):
+        """ single_expr : NOT expr
         | PLUS expr
         | MINUS expr"""
-        p[0] = BinExpr(left=p[1], op=p[2], right=p[3], position=getPosition(p))
+
+        p[0] = SingleExpr(op=p[1], expr=p[2], position=p.lineno(1))
 
     def p_builtin_methods(self, p):
         """builtin_methods : SCAN LPAREN RPAREN
@@ -226,9 +231,9 @@ class Parser:
         | LENGTH LPAREN clist RPAREN
         | EXIT LPAREN clist RPAREN"""
         if len(p) == 4:
-            p[0] = FunctionCall(id=p[1], args=None, position=p.lineno(1) + 1)
+            p[0] = FunctionCall(id=p[1], args=None, position=p.lineno(1))
         else:
-            p[0] = FunctionCall(id=p[1], args=p[3], position=p.lineno(1) + 1)
+            p[0] = FunctionCall(id=p[1], args=p[3], position=p.lineno(1))
 
     # ------- Error ------------------
     def p_single_if_error(self, p):

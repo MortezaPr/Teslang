@@ -3,10 +3,9 @@ class Tokens(object):
     reserved = {
         "int": "INT",
         "str": "STRING",
-        "boolean": "BOOLEAN",
+        "bool": "BOOLEAN",
         "false": "FALSE",
         "true": "TRUE",
-        "array": "ARRAY",
         "vector": "VECTOR",
         "if": "IF",
         "elseif": "ELSEIF",
@@ -96,9 +95,9 @@ class Tokens(object):
         t.type = self.reserved.get(t.value, "ID")  # Check for reserved words
         return t
 
-    def t_ARRAY(self, t):
-        r"\[.*?\]"
-        return t
+    # def t_ARRAY(self, t):
+    #     r"\[.*?\]"
+    #     return t
 
     def t_NUMBER(self, t):
         r"\d+"

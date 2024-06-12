@@ -299,6 +299,12 @@ class BinExpr(Node):
         self.op = op
         self.right = right
 
+class SingleExpr(Node):
+    def __init__(self, op, expr, position: int):
+        super().__init__(position)
+        self.op = op
+        self.expr = expr
+
 
 class Integer(Node):
     def __init__(self, value: int, position: int):

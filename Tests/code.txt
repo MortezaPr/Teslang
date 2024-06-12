@@ -1,4 +1,72 @@
-fn sum(numlist as vector) <int> {
-   test3 :: str = "sad";
+fn factorial (n as int) <int> {
+    result :: int = 1;
+    for (i = 1 to n) 
+    begin
+        result = result * i;
+    end
+    return result;
 }
 
+
+fn is_prime (num as int) <bool> {
+    if [[num <= 1]] 
+    begin
+        return 0;
+    end
+    
+    for (i = 2 to num / 2) 
+    begin
+        if [[num - i == 0]] 
+        begin
+            return 0;
+        end
+    end
+    return -1;
+}
+
+
+fn main () <null> {
+    num :: int = 5;
+    if [[is_prime(num)]] 
+    begin
+        print(5);
+    end
+    else
+    begin
+        print(8);
+    end
+
+    factorial_result :: int = factorial(num);
+    print(2);
+
+
+    message :: str = num > 10 ? "Greater than 10" : "Less or equal to 10";
+    print(3);
+
+
+    data :: vector = [1, 2, 3, 4, 5];
+    for (index = 0 to 4) 
+    begin
+        print(15);
+    end
+
+
+    calculation :: int = (data[0] + 20) * 3;
+    print(65);
+
+
+
+    if [[nothing == null]] 
+    begin
+        print(98);
+    end
+
+
+    fn nested_demo () <null> {
+        print(765);
+    }
+    
+    nested_demo();
+
+    return;
+}
