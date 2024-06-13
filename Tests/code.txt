@@ -70,3 +70,45 @@ fn main () <null> {
 
     return;
 }
+
+<% another code %>
+
+fn find(A as vector, n as int) <int>  
+{ 
+   k :: int; 
+   j :: int; 
+   
+   for (i = 0 to length(3)) 
+   begin 
+      if [[ n == k ]] 
+      begin 
+            return j; 
+      end 
+      j = x + 1; 
+   end 
+
+   return -1; 
+} 
+
+fn main() <null> 
+{ 
+   A :: int; 
+   a :: int;
+   
+   A = list(3); 
+   A[0] = 1; 
+   A[1] = 2; 
+   A[2] = 3; 
+
+   print(find(A, a)); 
+   print(find(A)); 
+   print(find(a, A)); 
+
+   return A; 
+} 
+ 
+ 
+ 
+ 
+ 
+ 

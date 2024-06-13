@@ -181,7 +181,8 @@ class Parser:
                 p[0] = p[1]
 
     def p_assignment_expr(self, p):
-        """assignment : ID EQ expr"""
+        """assignment : ID EQ expr
+                    | on_list EQ expr"""
         p[0] = Assignment(id=p[1], expr=p[3], position=p.lineno(1))
 
     def p_on_list(self, p):
@@ -199,8 +200,12 @@ class Parser:
         )
 
     def p_function_call(self, p):
-        """function_call : ID LPAREN clist RPAREN"""
-        p[0] = FunctionCall(id=p[1], args=p[3], position=p.lineno(1))
+        """function_call : ID LPAREN clist RPAREN
+                        | builtin_methods"""
+        if len(p) == 4:
+            p[0] = FunctionCall(id=p[1], args=None, position=p.lineno(1))
+        elif len(p) == 5:
+            p[0] = FunctionCall(id=p[1], args=p[3], position=p.lineno(1))
 
     def p_binary_expr(self, p):
         """binary_expr :  expr PLUS expr
@@ -229,10 +234,11 @@ class Parser:
         """builtin_methods : SCAN LPAREN RPAREN
         | PRINT LPAREN clist RPAREN
         | LENGTH LPAREN clist RPAREN
-        | EXIT LPAREN clist RPAREN"""
+        | EXIT LPAREN clist RPAREN
+        | LIST LPAREN NUMBER RPAREN"""
         if len(p) == 4:
             p[0] = FunctionCall(id=p[1], args=None, position=p.lineno(1))
-        else:
+        elif len(p) == 5:
             p[0] = FunctionCall(id=p[1], args=p[3], position=p.lineno(1))
 
     # ------- Error ------------------
