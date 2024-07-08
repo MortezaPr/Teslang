@@ -14,6 +14,7 @@ class Node:
         :param visitor: The visitor instance.
         """
         className = self.__class__.__name__
+        print(className)
         method = getattr(visitor, "visit_" + className, None)
         if method:
             return method(self)
@@ -298,6 +299,7 @@ class BinExpr(Node):
         self.left = left
         self.op = op
         self.right = right
+
 
 class SingleExpr(Node):
     def __init__(self, op, expr, position: int):

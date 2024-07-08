@@ -1,5 +1,6 @@
-from Lexer.tokens import Tokens
+import Utils.ast
 from Lexer.lexer import Lexer
+from Lexer.tokens import Tokens
 from Parser.parser import Parser
 from Semantic.semantic_analyzer import SemanticAnalyzer
 
@@ -16,9 +17,9 @@ def compile_teslang(code):
     parse_tree = parser.parse(code, lexer)
 
     #
-    # if parse_tree:
-    #     analyzer = SemanticAnalyzer()
-    #     analyzer.analyze(parse_tree)
+    if parse_tree:
+        analyzer = SemanticAnalyzer()
+        analyzer.analyze(parse_tree)
 
 
 if __name__ == "__main__":

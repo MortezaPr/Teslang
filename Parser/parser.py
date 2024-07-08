@@ -324,7 +324,7 @@ class Parser:
     def p_flist_iden_error(self, p):
         """flist : error AS type
         | error AS type COMMA flist"""
-        print("invalid id for argument list in line: " + (p.lineno(1)))
+        print(f"invalid id for argument list in line:  {(p.lineno(1))}")
         if len(p) == 3:
             p[0] = ParametersList(parameters=[Parameter(type=p[3], id=p[1])])
         if len(p) == 5:
