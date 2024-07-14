@@ -57,7 +57,8 @@ class Tokens(object):
         "OR",
         "DOUBLE_EQ",
         "NOT_EQ",
-        "NOT"
+        "NOT",
+        "TEXT"
     ] + list(reserved.values())
 
     # Regular expression rules for simple tokens
@@ -104,7 +105,7 @@ class Tokens(object):
         t.value = int(t.value)
         return t
 
-    def t_STRING(self, t):
+    def t_TEXT(self, t):
         r'"([^"\\]|\\.)*"|\'([^\'\\]|\\.)*\''
         t.value = t.value[1:-1].encode().decode('unicode_escape')  # Handle escape sequences
         return t

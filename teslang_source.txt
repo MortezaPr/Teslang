@@ -1,0 +1,10 @@
+fn add(a as int, b as int) <int>
+{
+    c :: int = 10;
+    d :: int;
+    d = c;
+    result :: int = a + b;
+    return result;
+}
+
+

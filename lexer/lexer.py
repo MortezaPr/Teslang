@@ -24,5 +24,4 @@ class Lexer(object):
             column = self.find_column(data, tok)
             table.add_row([tok.type, tok.value, tok.lineno, column])
 
-        # Print the table
-        print(table)
+        # print(table)

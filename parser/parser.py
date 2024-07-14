@@ -1,8 +1,7 @@
 import ply.yacc as yacc
 
-from Lexer.tokens import Tokens
-from Utils.ast import *
-
+from lexer.tokens import Tokens
+from utils.ast import *
 
 class Parser:
     tokens = Tokens.tokens
@@ -19,7 +18,6 @@ class Parser:
         """prog : empty
         | func prog"""
         if len(p) == 3:
-            # todo
             p[0] = Program(prog=p[2], func=p[1], position=p.lineno(1))
 
     def p_func(self, p):
@@ -29,8 +27,7 @@ class Parser:
 
     def p_empty(self, p):
         """empty :"""
-        pass
-        p[0] = []
+        p[0] = None
 
     def p_stmt(self, p):
         """stmt : expr SEMI_COLON
@@ -47,7 +44,6 @@ class Parser:
         | function_call SEMI_COLON
         | func1
         | func2"""
-
         p[0] = p[1]
 
     def p_body(self, p):
@@ -61,6 +57,8 @@ class Parser:
                      | RETURN"""
         if len(p) == 3:
             p[0] = ReturnInstruction(expression=p[2], position=p.lineno(1))
+        else:
+            p[0] = ReturnInstruction(expression=None, position=p.lineno(1))
 
     def p_while_loop(self, p):
         """while_loop : WHILE LPAREN expr RPAREN stmt"""
@@ -81,7 +79,7 @@ class Parser:
     def p_do_while(self, p):
         """do_while : DO stmt WHILE DOUBLE_LSQUAREBR expr DOUBLE_RSQUAREBR"""
         p[0] = WhileInstruction(
-            condition=p[3], while_statement=p[5], position=p.lineno(1)
+            condition=p[5], while_statement=p[2], position=p.lineno(1)
         )
 
     def p_block(self, p):
@@ -132,9 +130,9 @@ class Parser:
         """flist : empty
         | ID AS type
         | ID  AS type COMMA flist"""
-        if len(p) == 3:
+        if len(p) == 4:
             p[0] = ParametersList(parameters=[Parameter(type=p[3], id=p[1])])
-        if len(p) == 5:
+        if len(p) == 6:
             p[0] = ParametersList(
                 parameters=p[5].parameters + [Parameter(type=p[3], id=p[1])]
             )
@@ -144,13 +142,12 @@ class Parser:
         | expr
         | expr COMMA clist"""
         if len(p) == 2:
-            if p[1] == []:
-                exprs = []
+            if p[1] is None:
+                p[0] = ExprList(exprs=[])
             else:
-                exprs = [p[1]]
-                p[0] = ExprList(exprs=exprs)
+                p[0] = ExprList(exprs=[p[1]])
         elif len(p) == 4:
-            p[0] = ExprList(exprs=p[3].exprs + [p[1]])
+            p[0] = ExprList(exprs=[p[1]] + p[3].exprs)
 
     def p_expr(self, p):
         """expr : on_list
@@ -162,23 +159,23 @@ class Parser:
         | assignment
         | function_call
         | NUMBER
+        | TEXT
         | STRING
         | NULL
         | LPAREN expr RPAREN"""
-        if len(p) == 4 or len(p) == 3:
-            if p[1] == "-":
-                p[2].value = -p[2].value
-            elif p[1] == "!":
-                if p[2].value:
-                    p[2].value = 0
-                else:
-                    p[2].value = 1
-            p[0] = p[2]
-        else:
-            if p.slice[1].type in ("number", "iden", "string"):
-                p[0] = p.slice[1]
+        if len(p) == 2:
+            if isinstance(p[1], int):
+                p[0] = Num(p[1])
+            elif isinstance(p[1], str):
+
+                if p.slice[1].type == "ID":
+                    p[0] = Var(p[1])
+                elif p.slice[1].type == "TEXT":
+                    p[0] = Text(p[1])
             else:
                 p[0] = p[1]
+        elif len(p) == 4:
+            p[0] = p[2]
 
     def p_assignment_expr(self, p):
         """assignment : ID EQ expr
@@ -196,16 +193,16 @@ class Parser:
     def p_ternary_expr(self, p):
         """ternary_expr : expr QUESTION_MARK expr COLON expr"""
         p[0] = TernaryExpr(
-            cond=p[1], first_expr=p[2], second_expr=p[3], position=p.lineno(1)
+            cond=p[1], first_expr=p[3], second_expr=p[5], position=p.lineno(1)
         )
 
     def p_function_call(self, p):
         """function_call : ID LPAREN clist RPAREN
                         | builtin_methods"""
-        if len(p) == 4:
-            p[0] = FunctionCall(id=p[1], args=None, position=p.lineno(1))
-        elif len(p) == 5:
+        if len(p) == 5:
             p[0] = FunctionCall(id=p[1], args=p[3], position=p.lineno(1))
+        elif len(p) == 2:
+            p[0] = p[1]
 
     def p_binary_expr(self, p):
         """binary_expr :  expr PLUS expr
@@ -222,12 +219,10 @@ class Parser:
         | expr OR expr"""
         p[0] = BinExpr(left=p[1], op=p[2], right=p[3], position=p.lineno(1))
 
-
     def p_single_expr(self, p):
         """ single_expr : NOT expr
         | PLUS expr
         | MINUS expr"""
-
         p[0] = SingleExpr(op=p[1], expr=p[2], position=p.lineno(1))
 
     def p_builtin_methods(self, p):
@@ -250,15 +245,13 @@ class Parser:
         """while_loop : WHILE LPAREN error RPAREN stmt"""
         print("Invalid expression for while loop at line", p.lineno(1))
 
-    def p_error(slef, p):
+    def p_error(self, p):
         if p:
             print(
                 f"Syntax error at line {p.lineno}, position {p.lexpos}: Unexpected token '{p.value}'"
             )
         else:
             print("Syntax error: Unexpected end of input")
-
-    # You might want to raise an exception or handle the error in some other way
 
     def p_func1_rtype_error(self, p):
         """func1_rtype : FN ID LPAREN flist RPAREN LESS_THAN error GREATER_THAN LCURLYEBR body RCURLYEBR"""
@@ -314,9 +307,9 @@ class Parser:
         """flist : ID AS error
         | ID AS error COMMA flist"""
         print("invalid type for argument list in line: " + p.lineno(1))
-        if len(p) == 3:
+        if len(p) == 4:
             p[0] = ParametersList(parameters=[Parameter(type=p[3], id=p[1])])
-        if len(p) == 5:
+        if len(p) == 6:
             p[0] = ParametersList(
                 parameters=p[5].parameters + [Parameter(type=p[3], id=p[1])]
             )
@@ -324,10 +317,10 @@ class Parser:
     def p_flist_iden_error(self, p):
         """flist : error AS type
         | error AS type COMMA flist"""
-        print(f"invalid id for argument list in line:  {(p.lineno(1))}")
-        if len(p) == 3:
+        print("invalid id for argument list in line: " + (p.lineno(1)))
+        if len(p) == 4:
             p[0] = ParametersList(parameters=[Parameter(type=p[3], id=p[1])])
-        if len(p) == 5:
+        if len(p) == 6:
             p[0] = ParametersList(
                 parameters=p[5].parameters + [Parameter(type=p[3], id=p[1])]
             )
@@ -335,9 +328,9 @@ class Parser:
     def p_flist_flist_error(self, p):
         """flist : ID AS type COMMA error"""
         print("invalid flist for argument list in line: " + p.lineno(1))
-        if len(p) == 3:
+        if len(p) == 4:
             p[0] = ParametersList(parameters=[Parameter(type=p[3], id=p[1])])
-        if len(p) == 5:
+        if len(p) == 6:
             p[0] = ParametersList(
                 parameters=p[5].parameters + [Parameter(type=p[3], id=p[1])]
             )

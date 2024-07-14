@@ -1,8 +1,0 @@
-fn factorial (n as int) <null> {
-    result :: int = 1;
-    for (i = 1 to n) 
-    begin
-        result = result * i;
-    end
-    return result;
-}
