@@ -13,7 +13,7 @@ class IRFunction(IRNode):
 
     def __str__(self):
         body_str = "\n".join(str(instr) for instr in self.body)
-        return f"proc {self.name}\n{body_str}\nret"
+        return f"proc {self.name}\n{body_str}\n"
 
 class IRInstruction(IRNode):
     pass
